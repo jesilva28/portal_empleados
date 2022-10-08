@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inicio sesion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <style>
+      .container {
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+      @media screen and (max-width: 600px){
+          .img-empresarial-container {
+              display: none;
+          }
+
+          .container {
+              width: 100%;
+              margin: auto;
+          }
+      }
+      p:hover {
+        text-decoration: underline;
+      }
+
+      .img-perfil {
+        width: 25%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="text-center mt-3">COMPAÑÍA DE LAS CERVECERÍAS UNIDAS</h1>
+    <div class="container d-flex w-75 mt-5 rounded">
+      <div class="login-container w-50 d-flex flex-column align-items-center flex-wrap">
+        <h2 class="mt-4 text-center mb-3">PORTAL DE EMPLEADOS</h2>
+        <img class="img-perfil" src="{{url_for('static', filename='images/perfil.png')}}">
+        <form action="" method="post">
+          <div class="mb-4 mt-4">
+            <label for="Username" class="form-label fw-semibold">Identificación:</label>
+            {{ form.user_id(class="form-control w-100 rounded-pill", placeholder="Ingrese su id.")}}
+            <!-- <input type="text" class="form-control w-100 rounded-pill" id="email" placeholder="Ingrese su id." name="Username"> -->
+          </div>
+          <div class="mb-3">
+            <label for="pwd" class="form-label fw-semibold">Contraseña:</label>
+            {{form.user_pwd(class="form-control w-100 rounded-pill", placeholder="Ingrese su contraseña")}}
+            <!-- <input type="password" class="form-control w-100 rounded-pill" id="pwd" placeholder="Ingrese su contraseña" name="pwd"> -->
+          </div>
+            <button type="submit" class="btn btn-success mb-4 mt-4 rounded-pill w-100 fs-5">Iniciar sesión</button>
+            <p class="text-center fw-light"><a class="text-dark" href="/recuperar-password" style="text-decoration: none">¿Olvidó su contraseña?</a></p>
+        </form>
+      </div>
+      <img class="img-empresarial-container w-50" style="width: 50%;" src="{{url_for('static', filename='images/Imagen_portal_empleado.png')}}">
+    </div>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+{% extends "admin_base.html" %}
+{% block content %}
+    <div class="w-75">
+        <form action="/administrador/agregar-usuario" method="post" class="row mx-3">
+            <h2>Datos personales</h2>
+            <div class="col-md-6">
+                <label for="inputApellidos" class="form-label">Apellidos</label>
+                <input type="text" class="form-control" id="inputApellidos" name="inputApellidos">
+            </div>
+            <div class="col-md-6">
+                <label for="inputNombres" class="form-label">Nombres</label>
+                <input type="text" class="form-control" id="inputNombres" name="inputNombres">
+            </div>
+            <div class="col-md-4">
+                <label for="inputTipoDocumento" class="form-label">Tipo de documento</label>
+                <select id="inputTipoDocumento" class="form-select" name="inputTipoDocumento">
+                    <option selected>Cedula ciudadania</option>
+                    <option selected>Cedula extranjeria</option>
+                    <option selected>Pasaporte</option>
+                    <option selected>Permiso diplomatico</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="inputNumDocumento" class="form-label">Num. documento</label>
+                <input type="text" class="form-control" id="inputNumDocumento" name="inputNumDocumento">
+            </div>
+            <div class="col-md-4">
+                <label for="inputFechaNacimiento" class="form-label">Fecha de Nacimiento</label>
+                <input type="text" class="form-control" id="inputFechaNacimiento" name="inputFechaNacimiento">
+            </div>
+            <div class="col-md-2">
+                <label for="inputEdad" class="form-label">Edad</label>
+                <input type="number" class="form-control" id="inputEdad" name="inputEdad">
+            </div>
+            <div class="col-md-4">
+                <label for="inputEstadoCivil" class="form-label">Estado Civil</label>
+                <select id="inputEstadoCivil" class="form-select" name="inputEstadoCivil">
+                    <option selected>Soltero</option>
+                    <option selected>Casado</option>
+                    <option selected>Union libre</option>
+                    <option selected>Viudo</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="inputCorreoElectronico" class="form-label">Correo Electronico</label>
+                <input type="email" class="form-control" id="inputCorreoElectronico" name="inputCorreoElectronico">
+            </div>
+            <div class="col-md-3">
+                <label for="inputTelefono" class="form-label">Telefono</label>
+                <input type="text" class="form-control" id="inputTelefono" name="inputTelefono">
+            </div>
+            <div class="col-md-5">
+                <label for="inputDireccion" class="form-label">Direccion</label>
+                <input type="text" class="form-control" id="inputDireccion" name="inputDireccion">
+            </div>
+            <div class="col-md-3">
+                <label for="inputBarrio" class="form-label">Barrio</label>
+                <input type="text" class="form-control" id="inputBarrio" name="inputBarrio">
+            </div>
+            <div class="col-md-1">
+                <label for="inputEstrato" class="form-label">Estrato</label>
+                <select id="inputEstrato" class="form-select" name="inputEstrato">
+                    <option selected>1</option>
+                    <option selected>2</option>
+                    <option selected>3</option>
+                    <option selected>4</option>
+                    <option selected>5</option>
+                    <option selected>6</option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label for="inputContactoEmergencia" class="form-label">Contacto de emergencia</label>
+                <input type="text" class="form-control" id="inputContactoEmergencia" name="inputContactoEmergencia">
+            </div>
+            <div class="col-md-4">
+                <label for="inputTelefono" class="form-label">Telefono</label>
+                <input type="text" class="form-control" id="inputTelefono" name="inputTelefono">
+            </div>
+            <div class="col-md-4">
+                <label for="inputParentesco" class="form-label">Parentesco</label>
+                <input type="text" class="form-control" id="inputParentesco"  name="inputParentesco">
+            </div>
+            <h2 class="mt-3">Informacion laboral</h2>
+            <div class="col-md-4">
+                <label for="inputDependencia" class="form-label">Dependencia</label>
+                <input type="text" class="form-control" id="inputDependencia" name="inputDependencia">
+            </div>
+            <div class="col-md-4">
+                <label for="inputCargo" class="form-label">Cargo</label>
+                <input type="text" class="form-control" id="inputCargo" name="inputCargo">
+            </div>
+            <div class="col-md-4">
+                <label for="inputTipoContrato" class="form-label">Tipo de contrato</label>
+                <input type="text" class="form-control" id="inputTipoContrato" name="inputTipoContrato">
+            </div>
+            <div class="col-md-4">
+                <label for="inputSalario" class="form-label">Salario</label>
+                <input type="text" class="form-control" id="inputSalario" name="inputSalario">
+            </div>
+            <div class="col-md-4">
+                <label for="inputFechaIngreso" class="form-label">Fecha de ingreso</label>
+                <input type="date" class="form-control" id="inputFechaIngreso" name="inputFechaIngreso">
+            </div>
+            <div class="col-md-4">
+                <label for="inputFechaTermino" class="form-label">Fecha termino de contrato</label>
+                <input type="date" class="form-control" id="inputFechaTermino" name="inputFechaIngreso">
+            </div>
+            <div class="col-md-4">
+                <button type="submit" class="btn btn-success mt-4">Guardar</button>
+            </div>
+        </form>
+    </div>
+{% endblock%}

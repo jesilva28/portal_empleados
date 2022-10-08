@@ -1,0 +1,13 @@
+{% extends "admin_base.html" %}
+{% block content %}
+    <div class="front-page d-flex flex-column align-content-center text-center pt-5 mx-auto">
+        <h2><strong>COMPAÑIA DE LAS CERVECERÍAS UNIDAS</strong></h2>
+        <h4>BIENVENIDO {{ nombre }}</h4>
+        <h4>ADMINISTRADOR</h4>
+        <div class="task mt-5 rounded w-75 h-50 pt-5 mx-auto">
+            <p>¿Qué desea hacer hoy?</p>
+            <a href="administrador/evaluar-empleado"><button class="btnTask w-50 rounded mb-3" type="button">Calificar empleado<img class="img-task" src="{{url_for('static', filename='images/estrella.png')}}"></button></a><br>
+            <a href="administrador/cargar-evaluaciones"><button class="btnTask w-50 rounded" type="button">Cargar evaluación<img class="img-task" src="{{url_for('static', filename='images/archivo.png')}}"></button></a>
+        </div>
+    </div>
+{% endblock%}

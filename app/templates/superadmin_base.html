@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+    <style>
+        .img-perfil {
+            width: 30%;
+            height: auto;
+            margin-top: 40%;
+            margin-bottom: 10%;
+        }
+
+        .imageLogOut {
+            width: 15%;
+            height: auto;
+        }
+
+        .buttonLogOut {
+            margin-bottom: 30%;
+        }
+
+        .navbar{
+            background-color: darkgray;
+        }
+
+        .usuario {
+            background-color: rgb(102, 140, 205);
+        }
+
+        a {
+            text-decoration: none;
+            color: black;
+        }
+
+        a:hover {
+            color: black;
+        }
+    </style>
+    <title>Perfil Superadministrador</title>
+</head>
+<body>
+    <nav class="navbar shadow mb-3">
+        <form class="container-fluid justify-content-center text-white">
+            {% for item in nav.superadmin %}
+                <button class="mainBtn btn btn-outline-light btn-warning me-2 {{ 'active' if item.is_active else '' }}">
+                    <a href="{{ item.url }}">{{ item.label }}</a>
+                </button>
+            {% endfor %}
+        </form>
+    </nav>
+    <div class="d-flex flex-wrap w-75 shadow m-auto">
+        <div class="usuario w-25 text-center rounded text-white">
+            <img class="img-perfil" src="{{url_for('static', filename='images/perfil.png')}}">
+            <p class="fs-4">Área de Tecnología</p>
+            <p class="fs-4">Ingeniero de soporte</p>
+            <button class="buttonLogOut btn btn-warning btn-outline-primary text-body rounded-pill w-50 mt-5" type="submit"><img class="imageLogOut" src="{{url_for('static', filename='images/logout.png')}}">Salir</button>
+        </div>
+        {% block content %}
+        {%endblock%}
+    </div>
+</body>
+</html>

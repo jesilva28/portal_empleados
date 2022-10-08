@@ -1,0 +1,11 @@
+{% extends "superadmin_base.html" %}
+{% block content %}
+    <div class="front-page text-center pt-5 mx-auto">
+        <h2>BIENVENIDO {{ nombre }}</h2>
+        <div class="logo mt-5">
+            <h3><strong>COMPAÑIA DE LAS CERVECERÍAS UNIDAS</strong></h3>
+            <img src="{{url_for('static', filename='images/beer.png')}}">
+            <h3>SUPERADMINISTRADOR</h3>
+        </div>
+    </div>
+{% endblock%}

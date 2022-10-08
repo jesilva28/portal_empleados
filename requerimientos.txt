@@ -1,0 +1,13 @@
+flask
+flask_login
+flask_migrate
+flask_wtf
+flask_sqlalchemy
+sqlalchemy
+flask_bcrypt
+jinja2
+python-decouple
+email_validator
+Werkzeug
+flask-navigation
+flask_session

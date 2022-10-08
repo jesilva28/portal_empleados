@@ -1,0 +1,24 @@
+{% extends "superadmin_base.html" %}
+{% block content %}
+    <div class="front-page d-flex flex-column text-center mx-auto pt-5">
+        <div class="mb-3 row">
+            <form action="/superadministrador/buscar-usuario" method="post">
+                <label for="inputBuscarUsuario" class="form-label">Buscar empleado</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Ingrese número de identificación" name="searchId">
+                    <button class="btn btn-outline-secondary" type="submit">Buscar</button>
+                </div>
+            </form>
+        </div>
+        <div class="mb-3 row">
+            <!-- <form action="/superadministrador/editar-usuario" method="post"> -->
+                <label for="inputResultados" class="form-label">Resultados</label>
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Identificación" value="{{Id}}" name="inputNumDocumento">
+                    <input type="text" class="form-control" placeholder="Nombre" value="{{[nombre, apellido]|join(' ')}}">
+                    <a href="editar-usuario"><button class="btn btn-outline-secondary" type="submit">Editar</button></a>
+                </div>
+            <!-- </form> -->
+        </div>
+    </div>
+{% endblock%}
