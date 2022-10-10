@@ -71,16 +71,36 @@ def login():
         pwd = request.form.get('user_pwd')
         rol = Roles.query.filter_by(identificacion=user_id).first()
         if rol:
-            if bc.check_password_hash(rol.password,pwd) and rol.perfil == "Superadministrador":
-                login_user(rol)
-                return redirect(url_for('pagina_superadministrador'))
-            elif bc.check_password_hash(rol.password, pwd) and rol.perfil == "Administrador":
-                login_user(rol)
-                return redirect(url_for('pagina_administrador'))
-            elif bc.check_password_hash(rol.password, pwd) and rol.perfil == "Empleado":
-                login_user(rol)
-                return redirect(url_for('pagina_empleado'))
+            if rol.is_active == True:
+                if bc.check_password_hash(rol.password,pwd):
+                    if rol.first_login == False:
+                        if rol.perfil == "Superadministrador":
+                            login_user(rol)
+                            return redirect(url_for('pagina_superadministrador'))
+                        elif rol.perfil == "Administrador":
+                            login_user(rol)
+                            return redirect(url_for('pagina_administrador'))
+                        elif rol.perfil == "Empleado":
+                            login_user(rol)
+                            return redirect(url_for('pagina_empleado'))
+                    else: 
+                        return redirect(url_for("recover_password"))
     return render_template("login_1.html", form=form)
+
+@app.route("/recuperar-password", methods=['GET', 'POST'])
+def recover_password():
+    if request.method=='POST':
+        user_id = request.form.get('user_id')
+        pwd = request.form.get('pwd')
+        rol = Roles.query.filter_by(identificacion=user_id).first()
+        if rol:
+            if rol.is_active==True:
+                pwd_hash = bc.generate_password_hash(pwd)
+                rol.password = pwd_hash
+                rol.first_login = False
+                rol.save()
+                return redirect(url_for('login'))
+    return render_template("recuperar_password.html")
     
 @app.route("/superadministrador")
 @login_required
@@ -156,7 +176,6 @@ def pagina_superadministrador_searchUser():
     if request.method == 'POST':
         searchId = request.form.get('searchId')
         session["superadmin_search_id"] = searchId
-        print(session["superadmin_search_id"])
         user=Users.query.filter_by(identificacion=searchId).first()
         if user:
             Id = user.identificacion
@@ -190,32 +209,31 @@ def pagina_superadministrador_editUser():
         fecha_ingreso=request.form.get('inputFechaIngreso')
         fecha_termino=request.form.get('inputFechaTermino')
         
-        perfil=request.form.get('inputPerfil')
+        desactivar_perfil=request.form.get('desactivarUsuario')
+        print(desactivar_perfil)
+        user=Users.query.filter_by(identificacion=num_documento).first()
+        rol=Roles.query.filter_by(identificacion=num_documento).first()
         
-        user = Users(num_documento,
-                    tipo_documento,
-                    apellido,
-                    nombre,
-                    fecha_nacimiento,
-                    edad,
-                    estado_civil,
-                    correo_electronico,
-                    telefono,
-                    direccion,
-                    barrio,
-                    estrato,
-                    contacto_emergencia,
-                    telefono_contacto_emergencia,
-                    parentesco_contacto_emergencia,
-                    dependencia,
-                    cargo,
-                    tipo_contrato,
-                    salario,
-                    fecha_ingreso,
-                    fecha_termino)
+        user.apellidos = apellido
+        user.nombres = nombre
+        user.estado_civil = estado_civil
+        user.correo_electronico = correo_electronico
+        user.telefono = telefono
+        user.direccion = direccion
+        user.estrato = estrato
+        user.contacto_emergencia = contacto_emergencia
+        user.telefono_contacto_emergencia = telefono_contacto_emergencia
+        user.parentesco_contacto_emergencia = parentesco_contacto_emergencia
+        user.dependencia = dependencia
+        user.cargo = cargo
+        user.tipo_contrato = tipo_contrato
+        user.salario = salario
+        user.fecha_termino = fecha_termino
+        
         user.save()
-        rol = Roles(num_documento, perfil, pwd_hash)
-        rol.save()
+        if desactivar_perfil == 'on':
+            rol.is_active = False
+            rol.save()
         return render_template("superadmin_buscarUsuario_4.html")
     editId = session["superadmin_search_id"]
     user=Users.query.filter_by(identificacion=editId).first()
@@ -268,6 +286,7 @@ def pagina_superadministrador_manageAudits():
     return render_template("superadmin_gestiónEvaluaciones_6.html")
 
 @app.route("/administrador")
+@login_required
 def pagina_administrador():
     admin=session["final_user_id"]
     user=Users.query.filter_by(identificacion=admin).first()
@@ -333,13 +352,12 @@ def pagina_administrador_searchUser():
     if request.method == 'POST':
         searchId = request.form.get('searchId')
         session["admin_search_id"] = searchId
-        print(session["admin_search_id"])
         user=Users.query.filter_by(identificacion=searchId).first()
         if user:
             Id = user.identificacion
             nombre = user.nombres
             apellido = user.apellidos
-        return render_template("superadmin_buscarUsuario_4.html", Id=Id, nombre= nombre, apellido=apellido)
+        return render_template("admin_buscarUsuario_9.html", Id=Id, nombre= nombre, apellido=apellido)
     return render_template("admin_buscarUsuario_9.html")
 
 @app.route("/administrador/editar-usuario", methods=['GET', 'POST'])
@@ -367,31 +385,28 @@ def pagina_administrador_editUser():
         fecha_ingreso=request.form.get('inputFechaIngreso')
         fecha_termino=request.form.get('inputFechaTermino')
         
-        perfil=request.form.get('inputPerfil')
+        perfil=request.form.get('desactivarUsuario')
         
-        user = Users(num_documento,
-                    tipo_documento,
-                    apellido,
-                    nombre,
-                    fecha_nacimiento,
-                    edad,
-                    estado_civil,
-                    correo_electronico,
-                    telefono,
-                    direccion,
-                    barrio,
-                    estrato,
-                    contacto_emergencia,
-                    telefono_contacto_emergencia,
-                    parentesco_contacto_emergencia,
-                    dependencia,
-                    cargo,
-                    tipo_contrato,
-                    salario,
-                    fecha_ingreso,
-                    fecha_termino)
+        user=Users.query.filter_by(identificacion=num_documento).first()
+        
+        user.apellidos = apellido
+        user.nombres = nombre
+        user.estado_civil = estado_civil
+        user.correo_electronico = correo_electronico
+        user.telefono = telefono
+        user.direccion = direccion
+        user.estrato = estrato
+        user.contacto_emergencia = contacto_emergencia
+        user.telefono_contacto_emergencia = telefono_contacto_emergencia
+        user.parentesco_contacto_emergencia = parentesco_contacto_emergencia
+        user.dependencia = dependencia
+        user.cargo = cargo
+        user.tipo_contrato = tipo_contrato
+        user.salario = salario
+        user.fecha_termino = fecha_termino
+        
         user.save()
-        return render_template("superadmin_buscarUsuario_4.html")
+        return render_template("admin_buscarUsuario_9.html")
     editId = session["admin_search_id"]
     user=Users.query.filter_by(identificacion=editId).first()
     Id = user.identificacion

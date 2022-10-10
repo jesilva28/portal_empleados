@@ -73,13 +73,9 @@
         <div class="usuario w-25 text-center rounded text-white">
             <p class="fs-4"><u>Bienvenido</u></p>
             <img class="img-perfil" src="{{url_for('static', filename='images/perfil.png')}}">
-            <div class="infoEmpleado d-flex flex-column px-4">
-                <p class="fs-5">Nombre completo</p>
-                <p class="fs-5">Dependencia</p>
-                <p class="fs-5">Cargo</p>
-                <p class="fs-5">Calificación</p>
-            </div>
-            <button class="buttonLogOut btn btn-warning btn-outline-primary text-body rounded-pill w-50 mt-5" type="submit"><img class="imageLogOut" src="{{url_for('static', filename='images/logout.png')}}">Salir</button>
+            {%block body%}
+            {%endblock%}
+            <button class="buttonLogOut btn btn-warning btn-outline-primary text-body rounded-pill w-50 mt-5" type="submit"><img class="imageLogOut" src="{{url_for('static', filename='images/logout.png')}}"><a href="/logout">Salir</a></button>
         </div>
         {% block content %}
         {%endblock%}
