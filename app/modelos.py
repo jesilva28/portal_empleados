@@ -6,8 +6,10 @@ class Roles(db.Model, UserMixin):
     
     id = db.Column(db.Integer, primary_key=True)
     identificacion=db.Column(db.String(64), unique=True)
-    perfil=db.Column(db.String(120), unique=True)
+    perfil=db.Column(db.String(120))
     password= db.Column(db.String(500))
+    is_active= db.Column(db.Boolean, default=True)
+    first_login= db.Column(db.Boolean, default=True)
 
     def __init__(self, identificacion,perfil,password):
         self.identificacion= identificacion

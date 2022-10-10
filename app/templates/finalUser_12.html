@@ -1,4 +1,12 @@
 {% extends "finalUser_base.html" %}
+{%block body%}
+    <div class="infoEmpleado d-flex flex-column px-4">
+        <p class="fs-5">{{[nombres, apellidos]|join(' ')}}</p>
+        <p class="fs-5">Dependencia: {{dependencia}}</p>
+        <p class="fs-5">Cargo: {{cargo}}</p>
+        <p class="fs-5">Calificación</p>
+    </div>
+{%endblock%}
 {% block content %}
     <div class="w-75 my-auto">
         <form class="row mx-3">

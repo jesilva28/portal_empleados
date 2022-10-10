@@ -56,7 +56,7 @@
             <img class="img-perfil" src="{{url_for('static', filename='images/perfil.png')}}">
             <p class="fs-4">Área de Tecnología</p>
             <p class="fs-4">Ingeniero de soporte</p>
-            <button class="buttonLogOut btn btn-warning btn-outline-primary text-body rounded-pill w-50 mt-5" type="submit"><img class="imageLogOut" src="{{url_for('static', filename='images/logout.png')}}">Salir</button>
+            <button class="buttonLogOut btn btn-warning btn-outline-primary text-body rounded-pill w-50 mt-5" type="submit"><img class="imageLogOut" src="{{url_for('static', filename='images/logout.png')}}"><a href="/logout">Salir</a></button>
         </div>
         {% block content %}
         {%endblock%}
