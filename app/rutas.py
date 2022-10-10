@@ -176,7 +176,6 @@ def pagina_superadministrador_searchUser():
     if request.method == 'POST':
         searchId = request.form.get('searchId')
         session["superadmin_search_id"] = searchId
-        print(session["superadmin_search_id"])
         user=Users.query.filter_by(identificacion=searchId).first()
         if user:
             Id = user.identificacion
@@ -210,8 +209,10 @@ def pagina_superadministrador_editUser():
         fecha_ingreso=request.form.get('inputFechaIngreso')
         fecha_termino=request.form.get('inputFechaTermino')
         
-        perfil=request.form.get('inputPerfil')
+        desactivar_perfil=request.form.get('desactivarUsuario')
+        print(desactivar_perfil)
         user=Users.query.filter_by(identificacion=num_documento).first()
+        rol=Roles.query.filter_by(identificacion=num_documento).first()
         
         user.apellidos = apellido
         user.nombres = nombre
@@ -230,6 +231,9 @@ def pagina_superadministrador_editUser():
         user.fecha_termino = fecha_termino
         
         user.save()
+        if desactivar_perfil == 'on':
+            rol.is_active = False
+            rol.save()
         return render_template("superadmin_buscarUsuario_4.html")
     editId = session["superadmin_search_id"]
     user=Users.query.filter_by(identificacion=editId).first()
@@ -348,7 +352,6 @@ def pagina_administrador_searchUser():
     if request.method == 'POST':
         searchId = request.form.get('searchId')
         session["admin_search_id"] = searchId
-        print(session["admin_search_id"])
         user=Users.query.filter_by(identificacion=searchId).first()
         if user:
             Id = user.identificacion
@@ -382,7 +385,8 @@ def pagina_administrador_editUser():
         fecha_ingreso=request.form.get('inputFechaIngreso')
         fecha_termino=request.form.get('inputFechaTermino')
         
-        perfil=request.form.get('inputPerfil')
+        perfil=request.form.get('desactivarUsuario')
+        
         user=Users.query.filter_by(identificacion=num_documento).first()
         
         user.apellidos = apellido
