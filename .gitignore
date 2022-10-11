@@ -130,3 +130,8 @@ dmypy.json
 versiones-anteriores/
 .flask_session
 flask_session/
+
+# DS
+
+.DS_Store
+app/.DS_Store
