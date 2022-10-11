@@ -36,6 +36,11 @@
         <h2 class="mt-4 text-center mb-3">PORTAL DE EMPLEADOS</h2>
         <img class="img-perfil" src="{{url_for('static', filename='images/perfil.png')}}">
         <form action="" method="post">
+          <p class="text-danger mt-2">
+            {% if message %}
+              {{message}}
+            {% endif %}
+          </p>
           <div class="mb-4 mt-4">
             <label for="Username" class="form-label fw-semibold">Identificación:</label>
             {{ form.user_id(class="form-control w-100 rounded-pill", placeholder="Ingrese su id.")}}

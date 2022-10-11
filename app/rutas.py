@@ -42,42 +42,45 @@ def logout():
 @app.route("/", methods=['GET', 'POST'])
 def login():
     form = login_form(request.form)
+    message=None
     if request.method == 'POST':
         user_id = request.form.get('user_id')
         session["final_user_id"] = user_id
         pwd = request.form.get('user_pwd')
         rol = Roles.query.filter_by(identificacion=user_id).first()
         if rol:
-            if rol.is_active == True:
+            if rol.is_active:
                 if bc.check_password_hash(rol.password,pwd):
-                    if rol.first_login == False:
-                        if rol.perfil == "Superadministrador":
+                    if not rol.first_login:
+                        if rol.perfil == "superadministrador":
                             login_user(rol)
                             return redirect(url_for('pagina_superadministrador'))
-                        elif rol.perfil == "Administrador":
+                        elif rol.perfil == "administrador":
                             login_user(rol)
                             return redirect(url_for('pagina_administrador'))
-                        elif rol.perfil == "Empleado":
+                        elif rol.perfil == "empleado":
                             login_user(rol)
                             return redirect(url_for('pagina_empleado'))
                     else: 
                         return redirect(url_for("recover_password"))
-    return render_template("login_1.html", form=form)
+                else: 
+                    message= "Usuario o contraseña incorrecto"
+    return render_template("login_1.html", form=form, message=message)
 
 @app.route("/recuperar-password", methods=['GET', 'POST'])
 def recover_password():
     if request.method=='POST':
-        user_id = request.form.get('user_id')
+        user_id = session["final_user_id"]
         pwd = request.form.get('pwd')
         rol = Roles.query.filter_by(identificacion=user_id).first()
         if rol:
-            if rol.is_active==True:
+            if rol.is_active:
                 pwd_hash = bc.generate_password_hash(pwd)
                 rol.password = pwd_hash
                 rol.first_login = False
                 rol.save()
                 return redirect(url_for('login'))
-    return render_template("recuperar_password.html")
+    return render_template("establecer_password.html")
     
 @app.route("/superadministrador")
 @login_required
@@ -85,7 +88,7 @@ def pagina_superadministrador():
     superadmin = session["final_user_id"]
     user=Users.query.filter_by(identificacion=superadmin).first()
     nombre=user.nombres
-    return render_template("superadmin_2.html", nombre=nombre)
+    return render_template("superadmin_2.html",nombre=nombre)
 
 @app.route('/',defaults={'path':'index'})
 @app.route('/<path>')
@@ -97,28 +100,28 @@ def index(path):
 def pagina_superadministrador_addUser():
     if request.method =='POST':
         num_documento=request.form.get('inputNumDocumento')
-        tipo_documento=request.form.get('inputTipoDocumento')
-        apellido=request.form.get('inputApellidos', type=str)
-        nombre=request.form.get('inputNombres', type=str)
+        tipo_documento=request.form.get('inputTipoDocumento').lower()
+        apellido=request.form.get('inputApellidos', type=str).lower()
+        nombre=request.form.get('inputNombres', type=str).lower()
         fecha_nacimiento = request.form.get('inputFechaNacimiento')
         edad=request.form.get('inputEdad')
-        estado_civil=request.form.get('inputEstadoCivil')
-        correo_electronico=request.form.get('inputCorreoElectronico')
+        estado_civil=request.form.get('inputEstadoCivil').lower()
+        correo_electronico=request.form.get('inputCorreoElectronico').lower()
         telefono=request.form.get('inputTelefono')
-        direccion=request.form.get('inputDireccion')
-        barrio=request.form.get('inputBarrio')
+        direccion=request.form.get('inputDireccion').lower()
+        barrio=request.form.get('inputBarrio').lower()
         estrato=request.form.get('inputEstrato')
-        contacto_emergencia=request.form.get('inputContactoEmergencia')
+        contacto_emergencia=request.form.get('inputContactoEmergencia').lower()
         telefono_contacto_emergencia=request.form.get('inputTelefonoContactoEmergencia')
-        parentesco_contacto_emergencia=request.form.get('inputParentesco')
-        dependencia=request.form.get('inputDependencia')
-        cargo=request.form.get('inputCargo')
-        tipo_contrato=request.form.get('inputTipoContrato')
+        parentesco_contacto_emergencia=request.form.get('inputParentesco').lower()
+        dependencia=request.form.get('inputDependencia').lower()
+        cargo=request.form.get('inputCargo').lower()
+        tipo_contrato=request.form.get('inputTipoContrato').lower()
         salario=request.form.get('inputSalario')
         fecha_ingreso=request.form.get('inputFechaIngreso')
         fecha_termino=request.form.get('inputFechaTermino')
         
-        perfil=request.form.get('inputPerfil')
+        perfil=request.form.get('inputPerfil').lower()
         pwd_hash = bc.generate_password_hash(num_documento)
         
         user = Users(num_documento,
@@ -166,22 +169,22 @@ def pagina_superadministrador_editUser():
     if request.method == 'POST':
         num_documento=request.form.get('inputNumDocumento')
         tipo_documento=request.form.get('inputTipoDocumento')
-        apellido=request.form.get('inputApellidos', type=str)
-        nombre=request.form.get('inputNombres', type=str)
+        apellido=request.form.get('inputApellidos', type=str).lower()
+        nombre=request.form.get('inputNombres', type=str).lower()
         fecha_nacimiento = request.form.get('inputFechaNacimiento')
         edad=request.form.get('inputEdad')
-        estado_civil=request.form.get('inputEstadoCivil')
-        correo_electronico=request.form.get('inputCorreoElectronico')
+        estado_civil=request.form.get('inputEstadoCivil').lower()
+        correo_electronico=request.form.get('inputCorreoElectronico').lower()
         telefono=request.form.get('inputTelefono')
-        direccion=request.form.get('inputDireccion')
-        barrio=request.form.get('inputBarrio')
+        direccion=request.form.get('inputDireccion').lower()
+        barrio=request.form.get('inputBarrio').lower()
         estrato=request.form.get('inputEstrato')
-        contacto_emergencia=request.form.get('inputContactoEmergencia')
+        contacto_emergencia=request.form.get('inputContactoEmergencia').lower()
         telefono_contacto_emergencia=request.form.get('inputTelefonoContactoEmergencia')
-        parentesco_contacto_emergencia=request.form.get('inputParentesco')
-        dependencia=request.form.get('inputDependencia')
-        cargo=request.form.get('inputCargo')
-        tipo_contrato=request.form.get('inputTipoContrato')
+        parentesco_contacto_emergencia=request.form.get('inputParentesco').lower()
+        dependencia=request.form.get('inputDependencia').lower()
+        cargo=request.form.get('inputCargo').lower()
+        tipo_contrato=request.form.get('inputTipoContrato').lower()
         salario=request.form.get('inputSalario')
         fecha_ingreso=request.form.get('inputFechaIngreso')
         fecha_termino=request.form.get('inputFechaTermino')
@@ -274,22 +277,22 @@ def pagina_administrador_addUser():
     if request.method =='POST':
         num_documento=request.form.get('inputNumDocumento')
         tipo_documento=request.form.get('inputTipoDocumento')
-        apellido=request.form.get('inputApellidos', type=str)
-        nombre=request.form.get('inputNombres', type=str)
+        apellido=request.form.get('inputApellidos', type=str).lower()
+        nombre=request.form.get('inputNombres', type=str).lower()
         fecha_nacimiento = request.form.get('inputFechaNacimiento')
         edad=request.form.get('inputEdad')
-        estado_civil=request.form.get('inputEstadoCivil')
-        correo_electronico=request.form.get('inputCorreoElectronico')
+        estado_civil=request.form.get('inputEstadoCivil').lower()
+        correo_electronico=request.form.get('inputCorreoElectronico').lower()
         telefono=request.form.get('inputTelefono')
-        direccion=request.form.get('inputDireccion')
-        barrio=request.form.get('inputBarrio')
+        direccion=request.form.get('inputDireccion').lower()
+        barrio=request.form.get('inputBarrio').lower()
         estrato=request.form.get('inputEstrato')
-        contacto_emergencia=request.form.get('inputContactoEmergencia')
+        contacto_emergencia=request.form.get('inputContactoEmergencia').lower()
         telefono_contacto_emergencia=request.form.get('inputTelefonoContactoEmergencia')
-        parentesco_contacto_emergencia=request.form.get('inputParentesco')
-        dependencia=request.form.get('inputDependencia')
-        cargo=request.form.get('inputCargo')
-        tipo_contrato=request.form.get('inputTipoContrato')
+        parentesco_contacto_emergencia=request.form.get('inputParentesco').lower()
+        dependencia=request.form.get('inputDependencia').lower()
+        cargo=request.form.get('inputCargo').lower()
+        tipo_contrato=request.form.get('inputTipoContrato').lower()
         salario=request.form.get('inputSalario')
         fecha_ingreso=request.form.get('inputFechaIngreso')
         fecha_termino=request.form.get('inputFechaTermino')
@@ -341,22 +344,22 @@ def pagina_administrador_editUser():
     if request.method == 'POST':
         num_documento=request.form.get('inputNumDocumento')
         tipo_documento=request.form.get('inputTipoDocumento')
-        apellido=request.form.get('inputApellidos', type=str)
-        nombre=request.form.get('inputNombres', type=str)
+        apellido=request.form.get('inputApellidos', type=str).lower()
+        nombre=request.form.get('inputNombres', type=str).lower()
         fecha_nacimiento = request.form.get('inputFechaNacimiento')
         edad=request.form.get('inputEdad')
-        estado_civil=request.form.get('inputEstadoCivil')
-        correo_electronico=request.form.get('inputCorreoElectronico')
+        estado_civil=request.form.get('inputEstadoCivil').lower()
+        correo_electronico=request.form.get('inputCorreoElectronico').lower()
         telefono=request.form.get('inputTelefono')
-        direccion=request.form.get('inputDireccion')
-        barrio=request.form.get('inputBarrio')
+        direccion=request.form.get('inputDireccion').lower()
+        barrio=request.form.get('inputBarrio').lower()
         estrato=request.form.get('inputEstrato')
-        contacto_emergencia=request.form.get('inputContactoEmergencia')
+        contacto_emergencia=request.form.get('inputContactoEmergencia').lower()
         telefono_contacto_emergencia=request.form.get('inputTelefonoContactoEmergencia')
-        parentesco_contacto_emergencia=request.form.get('inputParentesco')
-        dependencia=request.form.get('inputDependencia')
-        cargo=request.form.get('inputCargo')
-        tipo_contrato=request.form.get('inputTipoContrato')
+        parentesco_contacto_emergencia=request.form.get('inputParentesco').lower()
+        dependencia=request.form.get('inputDependencia').lower()
+        cargo=request.form.get('inputCargo').lower()
+        tipo_contrato=request.form.get('inputTipoContrato').lower()
         salario=request.form.get('inputSalario')
         fecha_ingreso=request.form.get('inputFechaIngreso')
         fecha_termino=request.form.get('inputFechaTermino')

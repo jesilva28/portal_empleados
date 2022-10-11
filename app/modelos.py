@@ -24,6 +24,7 @@ class Roles(db.Model, UserMixin):
 class Users(db.Model, UserMixin):
     __tablename_ = 'Users'
     
+    user_id = db.Column(db.Integer)
     identificacion = db.Column(db.Integer, primary_key=True, nullable=False, unique=True)
     tipo_documento = db.Column(db.String(64), nullable=False)
     apellidos = db.Column(db.String(64), nullable=False)
