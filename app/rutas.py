@@ -33,34 +33,11 @@ nav.Bar('empleado', [
     nav.Item('Historial de evaluaciones', 'pagina_empleado_audits'),
 ])
 
-# Primera ruta para hacer logout 
 
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
-
-# @app.route('/login', methods=['GET','POST'])
-# def login():
-#     form=LoginForm(request.form)
-#     msg=None 
-
-#     if form.validate_on_submit():
-#         username = request.form.get('username', type=str )
-#         password = request.form.get('password', type=str )
-#         user = Users.query.filter_by(user=username).first()
-
-#         if user:
-
-#             if bc.check_password_hash(user.password,password):
-#                 login_user(user)
-#                 return redirect(url_for('index'))
-#             else:
-#                 msg = "Password Incorrecto, intente nuevamente "
-#         else:
-#             msg = "Usuario desconocido "
-#     return render_template("login.html", form=form, msg=msg)
 
 @app.route("/", methods=['GET', 'POST'])
 def login():
@@ -210,7 +187,6 @@ def pagina_superadministrador_editUser():
         fecha_termino=request.form.get('inputFechaTermino')
         
         desactivar_perfil=request.form.get('desactivarUsuario')
-        print(desactivar_perfil)
         user=Users.query.filter_by(identificacion=num_documento).first()
         rol=Roles.query.filter_by(identificacion=num_documento).first()
         
@@ -384,8 +360,6 @@ def pagina_administrador_editUser():
         salario=request.form.get('inputSalario')
         fecha_ingreso=request.form.get('inputFechaIngreso')
         fecha_termino=request.form.get('inputFechaTermino')
-        
-        perfil=request.form.get('desactivarUsuario')
         
         user=Users.query.filter_by(identificacion=num_documento).first()
         

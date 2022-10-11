@@ -16,7 +16,7 @@ app.config.from_object('app.config.Config')
 
 db = SQLAlchemy(app)
 bc = Bcrypt(app)
-lm = LoginManager( )
+lm = LoginManager()
 lm.init_app(app)
 nav = Navigation(app)
 session = Session(app)
