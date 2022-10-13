@@ -11,4 +11,3 @@ email_validator
 Werkzeug
 flask-navigation
 flask_session
-gunicorn
