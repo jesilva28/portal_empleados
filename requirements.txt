@@ -15,6 +15,6 @@ SQLAlchemy
 Flask_Bcrypt
 email_validator
 Werkzeug
-Flask_Navigation==0.1.0
+Flask-Navigation==0.1.0
 Flask_Session
 pip==22.2.2
