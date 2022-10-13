@@ -56,6 +56,18 @@
             color: black;
         }
     </style>
+    <script>
+        function calcularEdad() {
+            let fechaNacimiento = document.getElementById("inputFechaNacimiento").value;
+            let splitFecha = fechaNacimiento.split("-");
+            let convertToDate = new Date(splitFecha[0], splitFecha[1] - 1, splitFecha[2]);
+            let timeDifference = Date.now() - convertToDate.getTime();
+            let newDate = new Date(timeDifference);
+            let year = newDate.getFullYear();
+            let edad = Math.abs(year - 1970);
+            return document.getElementById("inputEdad").value = edad;
+        }
+    </script>
     <title>Perfil Administrador</title>
 </head>
 <body>
