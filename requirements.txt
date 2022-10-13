@@ -17,3 +17,4 @@ email_validator
 Werkzeug
 Flask_Session
 pip==22.2.2
+Flask_Navigation
